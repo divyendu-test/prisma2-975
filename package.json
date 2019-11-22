@@ -1,0 +1,20 @@
+{
+  "name": "prisma2-core-dump-fk-issue",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "prisma2": "^2.0.0-preview016.2",
+    "ts-node": "^8.4.1",
+    "typescript": "^3.6.4"
+  },
+  "scripts": {
+    "dev": "ts-node script.ts",
+    "postinstall": "prisma2 generate"
+  },
+  "keywords": [],
+  "description": "",
+  "dependencies": {
+    "@prisma/photon": "^2.0.0-alpha.346"
+  }
+}

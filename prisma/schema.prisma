@@ -1,0 +1,143 @@
+datasource chinook {
+  provider = "sqlite"
+  url      = "file:./chinook.db"
+}
+
+generator photon {
+  provider = "photonjs"
+}
+
+model Album {
+  id     Int     @id @map("AlbumId")
+  title  String  @map("title") @default("n/a")
+  artist Artist  @map("ArtistId")
+  // relation field not present in DB schema
+  tracks Track[]
+
+  @@map("albums")
+}
+
+model Artist {
+  id     Int     @id @map("ArtistId")
+  name   String? @map("Name")
+  // relation field not present in DB schema
+  albums Album[]
+
+  @@map("artists")
+}
+
+model Customer {
+  id         Int     @id @map("CustomerId")
+  firstName  String  @map("FirstName")
+  lastName   String  @map("LastName")
+  company    String? @map("Company")
+  address    String? @map("Address")
+  city       String? @map("City")
+  state      String? @map("State")
+  country    String? @map("Country")
+  postalCode String? @map("PostalCode")
+  phone      String? @map("Phone")
+
+  fax        String?   @map("Fax")
+  email      String    @map("Email")
+  supportRep Employee? @map("SupportRepId")
+  // relation field not present in DB schema
+  invoices   Invoice[]
+
+  @@map("customers")
+}
+
+model Employee {
+  id         Int        @id @map("EmployeeId")
+  firstName  String     @map("FirstName")
+  lastName   String     @map("LastName")
+  title      String?    @map("Title")
+  // birthDate  DateTime?  @map("BirthDate")
+  // hireDate   DateTime?  @map("HireDate")
+  address    String?    @map("Address")
+  city       String?    @map("City")
+  state      String?    @map("State")
+  country    String?    @map("Country")
+  postalCode String?    @map("PostalCode")
+  phone      String?    @map("Phone")
+  fax        String?    @map("Fax")
+  email      String?    @map("Email")
+  // relation field not present in DB schema
+  customers  Customer[]
+  // reportsTo  Employee? @map("reportsTo")
+
+  @@map("employees")
+}
+
+model Genre {
+  id     Int     @id @map("GenreId")
+  name   String?
+  // relation field not present in DB schema
+  tracks Track[]
+
+  @@map("genres")
+}
+
+model InvoiceItem {
+  id        Int     @id @map("InvoiceLineId")
+  invoice   Invoice @map("InvoiceId")
+  track     Track   @map("TrackId")
+  unitPrice Float   @map("UnitPrice")
+  quantity  Int     @map("Quantity")
+
+  @@map("invoice_items")
+}
+
+model Invoice {
+  id                Int           @id @map("InvoiceId")
+  customer          Customer      @map("CustomerId")
+  // invoiceDate       DateTime      @map("InvoiceDate")
+  billingAddress    String?       @map("BillingAddress")
+  billingCity       String?       @map("BillingCity")
+  billingState      String?       @map("BillingState")
+  billingCountry    String?       @map("BillingCountry")
+  billingPostalCode String?       @map("BillingPostalCode")
+  total             Float         @map("Total")
+  // relation field not present in DB schema
+  invoiceItems      InvoiceItem[]
+
+  @@map("invoices")
+}
+
+model MediaType {
+  id   Int     @id @map("MediaTypeId")
+  name String? @map("Name")
+
+  @@map("mediaTypes")
+}
+
+model PlaylistTrack {
+  id       String   @id @default(cuid())
+  playlist Playlist @map("PlaylistId")
+  track    Track    @map("TrackId")
+
+  @@map("playlist_track")
+}
+
+model Playlist {
+  id   Int     @id @map("PlaylistId")
+  name String? @map("Name")
+
+  @@map("playlists")
+}
+
+model Track {
+  id           Int           @id @map("TrackId")
+  name         String        @map("Name")
+  album        Album?        @map("AlbumId")
+  mediaType    MediaType     @map("MediaTypeId")
+  genre        Genre?        @map("GenreId")
+  composer     String?       @map("Composer")
+  milliseconds Int           @map("Milliseconds")
+  bytes        Int           @map("Bytes")
+  unitPrice    Float         @map("UnitPrice")
+  // relation field not present in DB schema
+  invoiveItems InvoiceItem[]
+
+  @@map("tracks")
+}
